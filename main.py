@@ -1,6 +1,7 @@
 from fastapi import FastAPI, Request
 import requests
 import os
+import json  # Import json to use json.dumps()
 
 app = FastAPI()
 
@@ -36,10 +37,10 @@ async def webhook(request: Request):
             # Trigger Jenkins build if the 'jenkins-cdc' topic exists
             response = trigger_jenkins_build()
             
-            if response.status_code == 201:
+            if response and response.status_code == 201:
                 return {"message": f"Build triggered successfully for {repo_name}"}
             else:
-                return {"error": "Failed to trigger Jenkins job", "status": response.status_code, "response": response.text}
+                return {"error": "Failed to trigger Jenkins job", "status": response.status_code if response else "No Response", "response": response.text if response else "No Response"}
         else:
             log_webhook_event(payload, "Failed - jenkins-cdc topic not found")
             return {"error": "jenkins-cdc topic not found in the repository topics"}
