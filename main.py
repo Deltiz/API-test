@@ -17,7 +17,7 @@ WEBHOOK_LOG_FILE = "webhook_log.json"
 # Root endpoint
 @app.get("/")
 async def root():
-    return {"message": "Welcome to the FastAPI Webhook Service"}
+    return {"message": "Welcome to Adams FastAPI Webhook Service"}
 
 # Webhook endpoint to capture GitHub events and trigger Jenkins job
 @app.post("/webhook")
